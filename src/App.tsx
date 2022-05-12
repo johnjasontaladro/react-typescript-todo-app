@@ -1,26 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { createContext, useState } from 'react';
+import AddItem from './AddItem';
 import './App.css';
+import ListItem from './ListItem';
+import TodoNav from './TodoNav';
 
-function App() {
-  return (
+
+export interface myTodoListInterface {
+  todo: string,
+  status: "Active" | "Completed"
+}
+
+const useValue = () => {
+  const todoLocalStorage: string = localStorage.getItem('myTodoList') || '[]';
+  const [todo, setTodo] = useState<myTodoListInterface[]>(JSON.parse(todoLocalStorage));
+  const [display, setDisplay] = useState<string>("All"); 
+
+  return {
+    todo,
+    setTodo,
+    display,
+    setDisplay
+  }
+}
+
+export const AppContext = createContext({} as ReturnType<typeof useValue>);
+
+const App: React.FC = () => {
+  return(
+    <AppContext.Provider value={useValue()}>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="page-content page-container" id="page-content">
+        <div className="padding">
+          <div className="row-fluid container d-flex justify-content-center">
+            <div className="col-md-12">
+              <div className="card px-3">
+                <div className="card-body">
+                  <h4 className="card-title">Todo list by JT</h4>
+                  <AddItem />
+                  <TodoNav />
+                  <ListItem />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  );
+    </AppContext.Provider>
+  )
 }
 
 export default App;
