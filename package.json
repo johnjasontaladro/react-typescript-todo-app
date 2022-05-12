@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "author": "John Jason Taladro",
+  "homepage": "https://johnjasontaladro.github.io/react-typescript-todo-app",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
